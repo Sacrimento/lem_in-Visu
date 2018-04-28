@@ -45,8 +45,7 @@ AntImg = pygame.image.load("img/ant.png").convert_alpha()
 
 done = False
 
-who = 2
-where = "1"
+toMove = [(1, "La test3"), (2, "1")]
 
 while not done:
 	for event in pygame.event.get():
@@ -57,8 +56,9 @@ while not done:
 				done = True
 			elif event.key == K_RETURN:
 				for ant in AntList:
-					if ant.num == who:
-						ant.move(where, roomList)
+					for who in toMove:
+						if ant.num == who[0]:
+							ant.move(who[1], roomList)
 	for pipe in pipeList:
 		pipe.display(window)
 	for room in roomList:
