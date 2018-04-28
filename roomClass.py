@@ -1,12 +1,14 @@
 import pygame
 
 class Room:
-	def __init__(self, coo, name, type):
+	def __init__(self, coo, name, type, AntList, radius):
 		self.coo = coo
 		self.type = type
+		if (self.type == "sta"):
+			for ant in AntList:
+				ant.coo = self.coo
 		self.name = name
-		self.radius = 35
-		#self.named = font.render(self.name, 1, (255, 255, 255))
+		self.radius = radius
 
 	def display(self, window):
 		if (self.type == "def"):
