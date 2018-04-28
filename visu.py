@@ -59,6 +59,7 @@ while not done:
 					for who in toMove:
 						if ant.num == who[0]:
 							ant.move(who[1], roomList)
+							#toMove = nextMove()
 	for pipe in pipeList:
 		pipe.display(window)
 	for room in roomList:
