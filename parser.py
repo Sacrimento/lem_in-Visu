@@ -5,7 +5,8 @@ import math
 import visu
 import sys
 
-def parse(roomList, AntList, pipeList):
+def parse():
+	global AntList
 	i = 0
 	lines = getLines()
 	if lines[0] == "ERROR":
@@ -13,21 +14,22 @@ def parse(roomList, AntList, pipeList):
 	AntList = initAnts(int(lines[0]))
 	while i < len(lines):
 		if lines[i] == "##start":
-			addRoom(lines[i + 1].split(), "sta", roomList)
+			addRoom(lines[i + 1].split(), "sta")
 			i += 1
 		elif lines[i] == "##end":
-			addRoom(lines[i + 1].split(), "end", roomList)
+			addRoom(lines[i + 1].split(), "end")
 			i += 1
 		elif lines[i].find("-") == -1:
-			addRoom(lines[i].split(), "def", roomList)
+			addRoom(lines[i].split(), "def")
 		elif lines[i].find("-") != -1:
-			addPipe(lines[i].split("-"), pipeList)
+			addPipe(lines[i].split("-"))
 		elif lines[i] == "\n":
-			parseToMove(lines, i + 1, toMove)
+			parseToMove(lines, i + 1)
 			return
 		i += 1
 		
-def parseToMove(lines, i, toMove):
+def parseToMove(lines, i):
+	global toMove
 	while i < len(lines):
 		instL = []
 		insts = lines[i].split()
@@ -43,10 +45,12 @@ def getLines():
 		lines.append(l.replace('\n', ''))
 	return lines
 			
-def addRoom(args, type, roomList):
+def addRoom(args, type):
+	global roomList
 	roomList.append(Room((math.floor((args[1] * visu.windowWidth) / 100), math.floor((args[2] * visu.windowHeight) / 100)), args[0], type, AntList, visu.radius))
 
-def addPipe(args, pipeList):
+def addPipe(args):
+	global pipeList
 	pipeList.append(Pipe((args[0], args[1]), roomList))
 
 def initAnts(nbr):

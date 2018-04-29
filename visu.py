@@ -15,16 +15,16 @@ radius = 50
 
 ##########################################################################################################
 
-global toMove
-global roomList
-global AntList
-global pipeList
+# global toMove
+# global roomList
+# global AntList
+# global pipeList
 roomList = []
 pipeList = []
 AntList = []
 toMove = []
 
-parse(roomList, AntList, pipeList, toMove)
+parse()
 
 # roomList.append(Room((math.floor((50 * windowWidth) / 100), math.floor((50 * windowHeight) / 100)), "1", "end", AntList, radius))
 # roomList.append(Room((450, 25), "La test", "sta", AntList, radius))
