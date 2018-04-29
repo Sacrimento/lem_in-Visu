@@ -7,28 +7,41 @@ import sys
 
 def parse(roomList, AntList, pipeList):
 	i = 0
-	line = sys.stdin.readlines()
-	if line[0] == "ERROR":
+	lines = getLines()
+	if lines[0] == "ERROR":
 		exit()
-	AntList = initAnts(int(line[0]))
-	while i < len(line):
-		if line[i] == "##start":
-			addRoom(line[i + 1].split(), "sta", roomList)
+	AntList = initAnts(int(lines[0]))
+	while i < len(lines):
+		if lines[i] == "##start":
+			addRoom(lines[i + 1].split(), "sta", roomList)
 			i += 1
-		elif line[i] == "##end":
-			addRoom(line[i + 1].split(), "end", roomList)
+		elif lines[i] == "##end":
+			addRoom(lines[i + 1].split(), "end", roomList)
 			i += 1
-		elif line[i].find("-") == -1:
-			addRoom(line[i].split(), "def", roomList)
-		elif line[i].find("-") != -1:
-			addPipe(line[i].split("-"), pipeList)
-		elif line[i] == "\n":
-			parseToMove()
+		elif lines[i].find("-") == -1:
+			addRoom(lines[i].split(), "def", roomList)
+		elif lines[i].find("-") != -1:
+			addPipe(lines[i].split("-"), pipeList)
+		elif lines[i] == "\n":
+			parseToMove(lines, i + 1, toMove)
 			return
 		i += 1
 		
-def parseToMove():
-	return 
+def parseToMove(lines, i, toMove):
+	while i < len(lines):
+		instL = []
+		insts = lines[i].split()
+		for inst in insts:
+			instL.append((inst[1], inst[3:]))
+		toMove.append(instL)
+		i += 1
+
+def getLines():
+	lines = []
+	stdin = sys.stdin.readlines()
+	for l in stdin:
+		lines.append(l.replace('\n', ''))
+	return lines
 			
 def addRoom(args, type, roomList):
 	roomList.append(Room((math.floor((args[1] * visu.windowWidth) / 100), math.floor((args[2] * visu.windowHeight) / 100)), args[0], type, AntList, visu.radius))

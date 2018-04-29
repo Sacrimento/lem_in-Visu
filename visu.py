@@ -10,19 +10,21 @@ from parser import *
 windowHeight = 768
 windowWidth = 1366
 
-fontSize = 24
+fontSize = 20
 radius = 50
 
 ##########################################################################################################
 
+global toMove
 global roomList
 global AntList
 global pipeList
 roomList = []
 pipeList = []
 AntList = []
+toMove = []
 
-parse(roomList, AntList, pipeList)
+parse(roomList, AntList, pipeList, toMove)
 
 # roomList.append(Room((math.floor((50 * windowWidth) / 100), math.floor((50 * windowHeight) / 100)), "1", "end", AntList, radius))
 # roomList.append(Room((450, 25), "La test", "sta", AntList, radius))
@@ -52,6 +54,7 @@ def nextMove():
 	return [(3, "La test0"), (2, "La test15")]
 
 while not done:
+	i = 0
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			done = True
@@ -59,11 +62,12 @@ while not done:
 			if event.key == K_ESCAPE:
 				done = True
 			elif event.key == K_RETURN:
-				toMove = nextMove()
+				whos = toMove[i]
 				for ant in AntList:
-					for who in toMove:
+					for who in whos:
 						if ant.num == who[0]:
 							ant.move(who[1], roomList)
+				i += 1
 	for pipe in pipeList:
 		pipe.display(window)
 	for room in roomList:
