@@ -61,6 +61,7 @@ done = False
 i = 0
 
 while not done:
+	window.fill((0, 0, 0))
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			done = True
@@ -73,7 +74,7 @@ while not done:
 					if room.type == "sta":
 						start = room.name
 				for ant in AntList:
-					ant.move(start, roomList)
+					ant.restart(start, roomList)
 			elif event.key == K_RETURN:
 				if i >= len(toMove):
 					i = len(toMove) - 1
@@ -81,7 +82,7 @@ while not done:
 				for ant in AntList:
 					for who in whos:
 						if ant.num == who[0]:
-							ant.move(who[1], roomList)
+							ant.moveTo(who[1], roomList)
 				i += 1
 	for pipe in pipeList:
 		pipe.display(window)

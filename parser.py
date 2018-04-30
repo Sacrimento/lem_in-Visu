@@ -27,7 +27,7 @@ def getLines():
 	return lines
 			
 def addRoom(args, types, roomList, AntList):
-	roomList.append(Room((math.floor((int(args[1]) * windowWidth) / 100), math.floor((int(args[2]) * windowHeight) / 100)), args[0], types, AntList, radius))
+	roomList.append(Room((math.floor((int(args[1]) * windowWidth) / 24), math.floor((int(args[2]) * windowHeight) / 10)), args[0], types, AntList, radius))
 	return roomList
 
 def addPipe(args, pipeList, roomList):
