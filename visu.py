@@ -15,30 +15,34 @@ radius = 50
 
 ##########################################################################################################
 
-# global toMove
-# global roomList
-# global AntList
-# global pipeList
 roomList = []
 pipeList = []
 AntList = []
 toMove = []
 
-parse()
+def parse(roomList, pipeList, AntList, toMove):
+	i = 1
+	lines = getLines()
+	if lines[0] == "ERROR":
+		exit()
+	AntList = initAnts(int(lines[0]), AntList)
+	while i < len(lines):
+		if lines[i] == "##start":
+			roomList = addRoom(lines[i + 1].split(), "sta", roomList, AntList)
+			i += 1
+		elif lines[i] == "##end":
+			roomList = addRoom(lines[i + 1].split(), "end", roomList, AntList)
+			i += 1
+		elif lines[i].find("-") == -1 and lines[i] != "" and lines[i][0] != "#":
+			roomList = addRoom(lines[i].split(), "def", roomList, AntList)
+		elif lines[i].find("-") != -1:
+			pipeList = addPipe(lines[i].split("-"), pipeList, roomList)
+		elif lines[i] == "":
+			toMove = parseToMove(lines, i + 1, toMove)
+			return
+		i += 1
 
-# roomList.append(Room((math.floor((50 * windowWidth) / 100), math.floor((50 * windowHeight) / 100)), "1", "end", AntList, radius))
-# roomList.append(Room((450, 25), "La test", "sta", AntList, radius))
-# roomList.append(Room((25, 450), "La test2", "def", AntList, radius))
-# roomList.append(Room((90, 100), "La test3", "def", AntList, radius))
-# roomList.append(Room((220, 56), "La test12", "def", AntList, radius))
-# roomList.append(Room((500, 500), "La test15", "def", AntList, radius))
-# roomList.append(Room((700, 700), "La test0", "def", AntList, radius))
-
-
-# pipeList.append(Pipe(("1", "La test2"), roomList))
-# pipeList.append(Pipe(("1", "La test3"), roomList))
-# pipeList.append(Pipe(("1", "La test"), roomList))
-# pipeList.append(Pipe(("La test3", "La test2"), roomList))
+parse(roomList, pipeList, AntList, toMove)
 
 ##########################################################################################################
 
@@ -49,19 +53,25 @@ AntImg = pygame.image.load("img/ant.png").convert_alpha()
 pygame.init()
 
 done = False
-
-def nextMove():
-	return [(3, "La test0"), (2, "La test15")]
+i = 0
 
 while not done:
-	i = 0
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			done = True
 		if event.type == KEYDOWN:
 			if event.key == K_ESCAPE:
 				done = True
+			elif event.key == K_BACKSPACE:
+				i = 0
+				for room in roomList:
+					if room.type == "sta":
+						start = room.name
+				for ant in AntList:
+					ant.move(start, roomList)
 			elif event.key == K_RETURN:
+				if i >= len(toMove):
+					i = len(toMove) - 1
 				whos = toMove[i]
 				for ant in AntList:
 					for who in whos:
