@@ -20,6 +20,11 @@ pipeList = []
 AntList = []
 toMove = []
 
+def drawLegend(window):
+	window.blit(pygame.font.SysFont(None, fontSize + 5, 1).render("Entree              | Sortie              | Return => coup suivant | Delete => restart", False, (255, 255, 255)), (windowWidth - 750, 25))
+	pygame.draw.circle(window, (106, 90, 205), (windowWidth - 650, 31), 24)
+	pygame.draw.circle(window, (30, 144, 255), (windowWidth - 500, 31), 24)
+
 def parse(roomList, pipeList, AntList, toMove):
 	i = 1
 	lines = getLines()
@@ -62,7 +67,7 @@ while not done:
 		if event.type == KEYDOWN:
 			if event.key == K_ESCAPE:
 				done = True
-			elif event.key == K_BACKSPACE:
+			elif event.key == K_DELETE:
 				i = 0
 				for room in roomList:
 					if room.type == "sta":
@@ -85,6 +90,7 @@ while not done:
 		window.blit(pygame.font.SysFont(None, fontSize, 1).render(room.name, False, (255, 255, 255)), (room.coo[0] - ((len(room.name) * fontSize) / 4.5), room.coo[1] + radius + 2))
 	for ant in AntList:
 		ant.display(window, AntImg, radius)
+	drawLegend(window)
 	pygame.display.flip()
 
 pygame.quit()
