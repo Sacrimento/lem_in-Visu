@@ -1,3 +1,5 @@
+#!/sgoinfre/goinfre/Perso/abouvero/anaconda3/bin/pythonw
+
 import math
 import pygame
 from pygame.locals import *
@@ -59,6 +61,7 @@ pygame.init()
 
 done = False
 i = 0
+count = -1
 
 while not done:
 	window.fill((0, 0, 0))
@@ -75,7 +78,8 @@ while not done:
 						start = room.name
 				for ant in AntList:
 					ant.restart(start, roomList)
-			elif event.key == K_RETURN:
+				count = -1
+			elif event.key == K_RETURN and count == -1:
 				if i >= len(toMove):
 					i = len(toMove) - 1
 				whos = toMove[i]
@@ -83,6 +87,7 @@ while not done:
 					for who in whos:
 						if ant.num == who[0]:
 							ant.moveTo(who[1], roomList)
+				count = 0
 				i += 1
 	for pipe in pipeList:
 		pipe.display(window)
@@ -93,5 +98,9 @@ while not done:
 		ant.display(window, AntImg, radius)
 	drawLegend(window)
 	pygame.display.flip()
+	if count > -1:
+		count += 1
+	if count == 60:
+		count = -1
 
 pygame.quit()
