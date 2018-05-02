@@ -100,7 +100,7 @@ while not done:
 	pygame.display.flip()
 	if count > -1:
 		count += 1
-	if count == 60:
+	if count == 63:
 		count = -1
 
 pygame.quit()
