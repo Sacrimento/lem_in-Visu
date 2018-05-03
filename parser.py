@@ -14,7 +14,9 @@ def parseToMove(lines, i, toMove):
 		instL = []
 		insts = lines[i].split()
 		for inst in insts:
-			instL.append((int(inst[1]), inst[3:]))
+                    insto = inst.split("-")
+                    insto[0] = insto[0][1:]
+		    instL.append((int(insto[0]), insto[1]))
 		toMove.append(instL)
 		i += 1
 	return toMove
